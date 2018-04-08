@@ -1,0 +1,451 @@
+.App-logo {
+  /*animation: App-logo-spin infinite 20s linear;*/
+  height: 80px;
+}
+
+.HeroNav-header {
+  background-color: #2d2d2d;
+  text-align: center;
+  padding: 10px;
+  color: white;
+  margin-bottom: 10px;
+}
+.App-header {
+  background-color: #222;
+  height: 90px;
+  padding: 10px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.App-footer {
+  background-color: #222;
+  height: 50px;
+  color: white;
+  margin-top: 30px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.App a:hover {
+  text-decoration: underline;
+  /*color: #f60;*/
+}
+
+.App-container {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.Twitch h2 {
+  color: purple;
+}
+
+.Youtube h2 {
+  color: red;
+}
+
+.Web h2 {
+  color: #42a1f1;
+}
+
+.link-content a {
+  /*color:black;*/
+  text-decoration: none;
+}
+
+.link-content a:hover {
+  /*color:blue;*/
+  /*text-decoration: none;*/
+}
+
+.video-content a {
+  /*color:black;*/
+  text-decoration: none;
+}
+
+.video-content a:hover {
+  /*color:blue;*/
+  /*text-decoration: none;*/
+}
+
+.link-content {
+  margin-bottom: 15px;
+}
+
+.link-no-desc-content {
+  margin-bottom: 10px;
+}
+
+.twitch-extended-link-content {
+  margin-bottom: 15px;
+}
+
+.Hero-intro {
+  display: inline;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+a {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: normal;
+}
+
+h1,
+h2 {
+  font-family: 'Lato';
+  font-weight: 900;
+  color: #4a4a4a;
+  margin-top: 20px;
+}
+
+h3,
+h4 {
+  font-family: 'Lato';
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 30px;
+  margin-bottom: 0px;
+}
+
+h3 {
+  font-size: 25px;
+}
+
+.Hero-header h1 {
+  font-size: 50px;
+  margin-bottom: 15px;
+}
+
+.Hero-header {
+  margin-bottom: 35px;
+}
+
+.Content-wrapper h3 {
+}
+
+.Hero-intro {
+  color: #8c8c8c;
+  quotes: '«' '»';
+}
+
+.Hero-intro:before {
+  content: open-quote;
+}
+
+.Hero-intro:after {
+  content: close-quote;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.logo {
+  height: 100%;
+}
+
+.herologo {
+  /*margin-left: auto;
+  /*margin-right: auto;*/
+  border-radius: 50%;
+  height: 70px;
+  margin-left: 10px;
+}
+
+.zaryalogo {
+  background-color: pink;
+}
+
+.herologo {
+  -webkit-filter: opacity(70%) grayscale(0.75); /* Google Chrome, Safari 6+ & Opera 15+ */
+  filter: gray; /* IE6-9 */
+}
+
+.active .herologo {
+  -webkit-filter: grayscale(0);
+  filter: none;
+}
+
+.herologo:hover {
+  -webkit-filter: grayscale(0);
+  filter: none;
+}
+
+.dvalogo {
+  background-color: #92bad4;
+}
+
+.orisalogo {
+  background-color: #61894B;
+}
+
+.roadhoglogo {
+  background-color: #eedbb0;
+}
+
+.winstonlogo {
+  background-color: #e1dfd8;
+}
+
+.reinhardtlogo {
+  background-color: #b9b5ad;
+}
+
+.genjilogo {
+  background-color: #b6ef13;
+}
+
+.mercylogo {
+  background-color: #ffffa3;
+}
+
+.luciologo {
+  background-color: #80cc2e;
+}
+
+.doomfistlogo {
+  background-color: #AA3B42;
+}
+
+.zenyattalogo {
+  background-color: #684c3e;
+}
+
+.analogo{
+background-color: #6BA6E4;
+}
+
+.symmetralogo {
+  background-color: #f3f0e9;
+}
+
+.sombralogo{
+background-color: #B786BD;
+}
+
+.soldier76logo {
+  background-color: #525d9b;
+}
+
+.pharahlogo {
+  background-color: #ddaf63;
+}
+
+.tracerlogo {
+  background-color: #ffcf35;
+}
+
+.reaperlogo {
+  background-color: #9b3423;
+}
+
+.mccreelogo {
+  background-color: #c58c42;
+}
+
+.meilogo {
+  background-color: #87d7f6;
+}
+
+.hanzologo {
+  background-color: #343128;
+}
+
+.widowmakerlogo {
+  background-color: #af5e9e;
+}
+
+.torbjornlogo {
+  background-color: #b04a33;
+}
+
+.junkratlogo {
+  background-color: #837c19;
+}
+
+.bastionlogo {
+  background-color: #ebd9b3;
+}
+
+.Content-entry {
+  text-decoration: none;
+  /*margin-bottom: 10px;*/
+}
+
+.Video-preview {
+  margin-top: 5px;
+  max-width: 300px;
+  /*height: 160px;*/
+}
+
+.Content-wrapper ul {
+  list-style: none;
+}
+
+@media (max-width: 767px) {
+  .Content-wrapper ul {
+    padding-left: 0px;
+  }
+}
+
+.Content-wrapper {
+  overflow: hidden;
+}
+
+.Content-description p {
+  display: inline;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+p {
+  display: inline;
+  margin: 0;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: normal;
+}
+
+.icon {
+  height: 25%;
+}
+
+.logo {
+  height: 90%;
+}
+
+.navbar {
+  margin-bottom: 0px;
+  border: 0px;
+  border-radius: 0px;
+}
+
+.navbar-brand {
+  min-height: 80px;
+  padding: 7px 7px;
+}
+
+.navbar-toggle {
+  margin-top: 30px;
+}
+
+.navbar .container {
+  width: 100%;
+  /*margin-right: 50px;*/
+  padding-left: 50px;
+}
+
+/*.navbar-link {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 15px;
+}*/
+
+.sidebarlogo {
+  max-height: 30px;
+  margin-top: 10px;
+  margin-left: 15px;
+
+}
+
+.navbar-text {
+  /*margin-top: 30px;*/
+  /*margin-bottom: 15px;*/
+  display: inline-block;
+}
+
+.navbar-right{
+  padding: 15px;
+}
+
+.navbar-right p{
+  vertical-align: middle;
+}
+
+.navbar-right a{
+  vertical-align: middle;
+}
+
+.navbar-inverse .navbar-text {
+  color: white;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.nav p {
+  color: white;
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 200;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.nav a:hover p {
+  font-weight: 900;
+}
+
+.nav .active p {
+  font-weight: 700;
+}
+
+.Home-header {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.Home-header h1 {
+  font-size: 40px;
+  font-weight: 400;
+  color: #111;
+}
+
+.Home-header h2 {
+  font-size: 24px;
+  font-weight: 300;
+  color: #111;
+}
+
+.Home-content {
+  background-color: white;
+  padding: 10px;
+  color: white;
+  margin-bottom: 10px;
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.Home-content a:hover{
+  color: #4a4a4a;
+}
+
+.Home-content img {
+  border-radius: none;
+  height: 100px;
+  margin-left: 30px;
+  margin-bottom: 30px;
+}
+
+.classtype h2{
+  margin-bottom: 20px;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Nunito+Sans:200i,300,400,700,900');

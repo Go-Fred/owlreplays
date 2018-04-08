@@ -1,0 +1,32 @@
+{
+  "name": "owl-replays",
+  "version": "1.0.0",
+  "description": "",
+  "engines": {
+    "node": "8.9.x"
+  },
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server",
+    "heroku-postbuild": "cd client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "client/node_modules"
+  ],
+  "dependencies": {
+    "express": "^4.14.1",
+    "nodemon": "^1.17.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "react"
+  ],
+  "license": "MIT",
+  "devDependencies": {}
+}
