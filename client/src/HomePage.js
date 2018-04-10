@@ -15,16 +15,17 @@ class HomePage extends Component {
   }
 
   componentDidMount() {
-    fetch('/api')
+    fetch('/videos')
       .then(response => {
         if (!response.ok) {
           throw new Error(`status ${response.status}`);
         }
         return response.json();
       })
-      .then(json => {
+      .then(data => {
+        console.log(data)
         this.setState({
-          message: json.message,
+          message: JSON.stringify(data.title, null, 2),
           fetching: false
         });
       }).catch(e => {
@@ -40,7 +41,7 @@ class HomePage extends Component {
       <div className="App-container">
         <div className="Home-header" >
           <h1>The OWL Replays</h1>
-          <h2>Check it out:</h2>
+          <h2>Check it out: </h2>
           <p>{this.state.message}</p>
         </div>
       </div>
