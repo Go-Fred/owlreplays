@@ -11,7 +11,7 @@ dotenv.load();
 
 const PORT = process.env.PORT || 5000;
 const TWITCH_CLIENT_ID = process.env.TWITCH_CLIENT_ID
-console.log(TWITCH_CLIENT_ID)
+//console.log(TWITCH_CLIENT_ID)
 
 // Multi-process to utilize all CPU cores.
 if (cluster.isMaster) {
