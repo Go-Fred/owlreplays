@@ -13,6 +13,24 @@ const PORT = process.env.PORT || 5000;
 const TWITCH_CLIENT_ID = process.env.TWITCH_CLIENT_ID
 //console.log(TWITCH_CLIENT_ID)
 
+function getVideos(){
+
+return request = superagent
+    .get(SERVICE_URL + "/kraken/channels/137512364/videos/?limit=10")
+    .set("Client-ID", TWITCH_CLIENT_ID)
+    .set("Accept", "application/vnd.twitchtv.v5+json")
+    .then(function(response){
+        let video = response.body.videos
+        return video
+    })
+    .catch(err => {
+      console.log("API ERROR:\n", err);
+      res.end();
+    });
+
+}
+
+
 // Multi-process to utilize all CPU cores.
 if (cluster.isMaster) {
   console.error(`Node cluster master ${process.pid} is running`);
@@ -40,20 +58,12 @@ if (cluster.isMaster) {
   });
 
   app.get('/videos', function (req, res) {
-    superagent
-    .get(SERVICE_URL + "/kraken/channels/137512364/videos")
-    .set("Client-ID", TWITCH_CLIENT_ID)
-    .set("Accept", "application/vnd.twitchtv.v5+json")
-    .then(response => {
-      let message = JSON.stringify(response.body, null, 4)
-      //console.log(response.body)
-      console.log(response.body.videos)
-      res.json(response.body.videos);
-    })
-    .catch(err => {
-      console.log("API ERROR:\n", err);
-      res.end();
-    });
+    getVideos()
+          .then(function(results) {
+              console.log(results);
+              res.json(results)
+          })
+   // res.json(vids);
   });
 
   // All remaining requests return the React app, so it can handle routing.
