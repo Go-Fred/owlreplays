@@ -41,14 +41,14 @@ if (cluster.isMaster) {
 
   app.get('/videos', function (req, res) {
     superagent
-    .get(SERVICE_URL + "/kraken/videos/248664471")
+    .get(SERVICE_URL + "/kraken/channels/137512364/videos")
     .set("Client-ID", TWITCH_CLIENT_ID)
     .set("Accept", "application/vnd.twitchtv.v5+json")
     .then(response => {
       let message = JSON.stringify(response.body, null, 4)
       //console.log(response.body)
-      console.log(response.body)
-      res.json(response.body);
+      console.log(response.body.videos)
+      res.json(response.body.videos);
     })
     .catch(err => {
       console.log("API ERROR:\n", err);

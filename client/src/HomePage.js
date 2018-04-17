@@ -25,7 +25,7 @@ class HomePage extends Component {
       .then(data => {
         console.log(data)
         this.setState({
-          message: JSON.stringify(data.title, null, 2),
+          message: JSON.stringify(data[1].title, null, 2),
           fetching: false
         });
       }).catch(e => {
