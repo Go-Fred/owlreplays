@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
+//const cluster = require('cluster');
+//const numCPUs = require('os').cpus().length;
 const superagent = require("superagent");
 const SERVICE_URL = "https://api.twitch.tv";
 const bodyParser = require("body-parser");
@@ -83,5 +83,6 @@ filterVideos = (rawVideos) => {
 
   app.listen(PORT, function () {
     console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
+    process.on('SIGUSR2', () => { process.exit(0); });
   });
-}
+// }
