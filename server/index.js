@@ -16,12 +16,12 @@ const TWITCH_CLIENT_ID = process.env.TWITCH_CLIENT_ID
 function getVideos(){
 
 return request = superagent
-    .get(SERVICE_URL + "/kraken/channels/137512364/videos/?limit=10")
+    .get(SERVICE_URL + "/kraken/channels/137512364/videos/?limit=100")
     .set("Client-ID", TWITCH_CLIENT_ID)
     .set("Accept", "application/vnd.twitchtv.v5+json")
     .then(function(response){
-        let video = response.body.videos
-        return video
+        let { videos } = response.body
+        return videos
     })
     .catch(err => {
       console.log("API ERROR:\n", err);
@@ -30,21 +30,28 @@ return request = superagent
 
 }
 
+filterVideos = (rawVideos) => {
 
-// Multi-process to utilize all CPU cores.
-if (cluster.isMaster) {
-  console.error(`Node cluster master ${process.pid} is running`);
-
-  // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
-
-  cluster.on('exit', (worker, code, signal) => {
-    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
+  return rawVideos.filter( video => {
+    return video.title.includes("Full Match")
   });
 
-} else {
+}
+
+// Multi-process to utilize all CPU cores.
+// if (cluster.isMaster) {
+//   console.error(`Node cluster master ${process.pid} is running`);
+
+//   // Fork workers.
+//   for (let i = 0; i < numCPUs; i++) {
+//     cluster.fork();
+//   }
+
+//   cluster.on('exit', (worker, code, signal) => {
+//     console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
+//   });
+
+// } else {
   const app = express();
 
   // Priority serve any static files.
@@ -59,9 +66,12 @@ if (cluster.isMaster) {
 
   app.get('/videos', function (req, res) {
     getVideos()
-          .then(function(results) {
-              console.log(results);
-              res.json(results)
+          .then(function(rawVideos) {
+
+            let newVids = filterVideos(rawVideos)
+            newVids.map(vid => console.log(vid.title))
+            res.json(newVids)
+
           })
    // res.json(vids);
   });

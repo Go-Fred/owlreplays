@@ -7,7 +7,7 @@
   },
   "scripts": {
     "start": "node server",
-    "dev": "concurrently --kill-others \"nodemon server\" \"cd client && npm run dev\"",
+    "dev": "concurrently --kill-others \"nodemon --watch server\" \"cd client && npm run dev\"",
     "heroku-postbuild": "cd client/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "cacheDirectories": [

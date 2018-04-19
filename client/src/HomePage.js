@@ -10,6 +10,7 @@ class HomePage extends Component {
     super(props);
     this.state = {
       message: null,
+      videos: null,
       fetching: true
     };
   }
@@ -25,7 +26,8 @@ class HomePage extends Component {
       .then(data => {
         console.log(data)
         this.setState({
-          message: JSON.stringify(data[1].title, null, 2),
+          video: data[2]._id,
+          videos: data,
           fetching: false
         });
       }).catch(e => {
@@ -42,8 +44,15 @@ class HomePage extends Component {
         <div className="Home-header" >
           <h1>The OWL Replays</h1>
           <h2>Check it out: </h2>
-          <p>{this.state.message}</p>
+          <p>{this.state.video}</p>
+          <iframe
+            src={"http://player.twitch.tv/?video=" + this.state.video + "&autoplay=false"}
+            height="300"
+            width="400"
+            allowFullScreen={ true }>
+          </iframe>
         </div>
+
       </div>
     );
   }
