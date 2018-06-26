@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import heartIcon from "./img/Heart.ico";
 import "./App.css";
 import HomePage from "./HomePage.js";
-import HeroPage from "./HeroPage.js";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import ggLogo from "./img/GG-logo-alt.png";
 import githubLogo from "./img/Github-logo-alt.png";
@@ -15,8 +14,6 @@ import {
 } from "react-router-dom";
 
 const HomeRoute = () => <HomePage />;
-
-const HeroRoute = () => <HeroPage />;
 
 class App extends Component {
   constructor(props) {
