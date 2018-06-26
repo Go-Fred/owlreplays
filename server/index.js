@@ -67,13 +67,10 @@ filterVideos = (rawVideos) => {
   app.get('/videos', function (req, res) {
     getVideos()
           .then(function(rawVideos) {
-
-            let newVids = filterVideos(rawVideos)
-            newVids.map(vid => console.log(vid.title))
-            res.json(newVids)
-
+            let fullMatchVideos = filterVideos(rawVideos)
+            console.log(fullMatchVideos)
+            res.json(fullMatchVideos)
           })
-   // res.json(vids);
   });
 
   // All remaining requests return the React app, so it can handle routing.

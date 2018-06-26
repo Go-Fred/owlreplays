@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
+import { Row } from "react-bootstrap";
 
 import {
   Link,
 } from 'react-router-dom'
+
+import TwitchCard from "./TwitchCard.js";
 
 class HomePage extends Component {
   constructor(props) {
@@ -24,7 +27,7 @@ class HomePage extends Component {
         return response.json();
       })
       .then(data => {
-        console.log(data)
+        //console.log(data)
         this.setState({
           video: data[2]._id,
           videos: data,
@@ -38,19 +41,21 @@ class HomePage extends Component {
       })
   }
 
-  render() {
+    render() {
+    const {videos, fetching} = this.state;
     return (
       <div className="App-container">
         <div className="Home-header" >
           <h1>The OWL Replays</h1>
           <h2>Check it out: </h2>
           <p>{this.state.video}</p>
-          <iframe
-            src={"http://player.twitch.tv/?video=" + this.state.video + "&autoplay=false"}
-            height="300"
-            width="400"
-            allowFullScreen={ true }>
-          </iframe>
+          <Row>
+          {!fetching ?
+            videos.map(video => {
+              return <TwitchCard videoId={video._id} preview={video.preview.large}/>
+            }) : null
+          }
+          </Row>
         </div>
 
       </div>
