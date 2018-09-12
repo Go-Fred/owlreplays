@@ -1,76 +1,60 @@
 import React, { Component } from "react";
 import heartIcon from "./img/Heart.ico";
 import "./App.css";
-import HomePage from "./HomePage.js";
+import Home from "./pages/Home";
+import VideoPreview from "./pages/VideoPreview";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
-import ggLogo from "./img/GG-logo-alt.png";
-import githubLogo from "./img/Github-logo-alt.png";
 
 import {
   BrowserRouter as Router,
   Route,
   NavLink,
-  Link
+  Switch
 } from "react-router-dom";
 
-const HomeRoute = () => <HomePage />;
+export default class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentVideoTitle: null,
+        };
+    }
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      message: null,
-      fetching: true
-    };
-  }
-
-  componentDidMount() {
-    fetch('/api')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`status ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(json => {
+    updateCurrentVideoTitle = (title) => {
         this.setState({
-          message: json.message,
-          fetching: false
+            currentVideoTitle: title
         });
-      }).catch(e => {
-        this.setState({
-          message: `API call failed: ${e}`,
-          fetching: false
-        });
-      })
-  }
+    }
 
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Navbar inverse collapseOnSelect>
-            <Navbar.Header>
-              <Navbar.Brand>
-                <NavLink to="/">
-                  <img className="logo" src={ggLogo} alt="logo" />
-                </NavLink>
-              </Navbar.Brand>
-              <Navbar.Toggle />
-            </Navbar.Header>
-          </Navbar>
-          <Route exact path="/" component={HomeRoute} />
-          <div className="App-footer">
-            Made with{" "}
-            <a href="http://www.designbolts.com">
-              <img className="icon" src={heartIcon} alt="logo" />
-            </a>{" "}
-            by an Overwatch addict
-          </div>
-        </div>
-      </Router>
-    );
-  }
+        <Router>
+            <div className="App">
+            <Navbar collapseOnSelect>
+                <Navbar.Header>
+                <Navbar.Brand>
+                    <NavLink to="/">
+                        <h1>The Overwatch League Replays</h1>
+                    </NavLink>
+                </Navbar.Brand>
+                <Navbar.Toggle />
+                </Navbar.Header>
+            </Navbar>
+            <div className="App-container">
+            <Switch>
+                <Route exact path="/" render={()=><Home updateCurrentVideoTitle={this.updateCurrentVideoTitle}/>} />
+                <Route path="/videos/:id" render={({ match }) => <VideoPreview id={match.params.id} title={this.state.currentVideoTitle}/>} />
+            </Switch>
+            </div>
+            <div className="App-footer">
+                Made with{" "}
+                <a href="http://www.designbolts.com">
+                <img className="icon" src={heartIcon} alt="logo" />
+                </a>{" "}
+                by an Overwatch addict
+            </div>
+            </div>
+        </Router>
+        );
+    }
 }
-
-export default App;
