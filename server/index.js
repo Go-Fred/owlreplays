@@ -11,75 +11,113 @@ dotenv.load();
 
 const PORT = process.env.PORT || 5000;
 const TWITCH_CLIENT_ID = process.env.TWITCH_CLIENT_ID
-//console.log(TWITCH_CLIENT_ID)
+const DEFAULT_THUMBNAILS_WIDTH = 800
+const DEFAULT_THUMBNAILS_HEIGHT = 450
 
-function getVideos(){
 
-return request = superagent
-    .get(SERVICE_URL + "/kraken/channels/137512364/videos/?limit=100")
-    .set("Client-ID", TWITCH_CLIENT_ID)
-    .set("Accept", "application/vnd.twitchtv.v5+json")
-    .then(function(response){
-        let { videos } = response.body
-        return videos
-    })
-    .catch(err => {
-      console.log("API ERROR:\n", err);
-      res.end();
+// Get videos from Twitch API using superagent
+getVideos = () => {
+    return request = superagent
+        .get(SERVICE_URL + "/helix/videos?user_id=137512364&first=100")
+        .set("Client-ID", TWITCH_CLIENT_ID)
+        .set("Accept", "application/vnd.twitchtv.v5+json")
+        .then(function(response){
+            let videos = response.body.data
+            return videos
+        })
+        .catch(err => {
+            console.log("API ERROR:\n", err);
+            res.end();
+        });
+}
+
+// Filter out videos that doesn't contain Full Match
+filterFullMatchVideos = (videos) => {
+    return videos.filter( video => {
+        return video.title.includes("Full Match")
+    });
+}
+
+formatThumbnailUrls = (videos) => {
+    for (let video of videos){
+        let {thumbnail_url} = video;
+        thumbnail_url = thumbnail_url.replace('%{width}',DEFAULT_THUMBNAILS_WIDTH);
+        thumbnail_url = thumbnail_url.replace('%{height}',DEFAULT_THUMBNAILS_HEIGHT);
+        video.thumbnail_url = thumbnail_url;
+    }
+
+    return videos
+}
+
+getDaysSinceDate = (date) => {
+    console.log(date)
+    //Get 1 day in milliseconds
+    let one_day=1000*60*60*24;
+
+    let now = new Date()
+
+    // Convert dates to milliseconds
+    let date_ms = new Date(date).getTime();
+
+    // Calculate the difference in milliseconds
+    let difference_ms = now - date_ms;
+
+    // Convert back to days and return
+    return Math.round(difference_ms/one_day);
+}
+
+addRelativeDate = (videos) => {
+
+    for (let video of videos){
+        video.daysSinceDate = getDaysSinceDate(video.created_at)
+    }
+    return videos
+}
+
+//Multi-process to utilize all CPU cores.
+if (cluster.isMaster) {
+    console.error(`Node cluster master ${process.pid} is running`);
+
+    // Fork workers.
+    for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+    }
+
+    cluster.on('exit', (worker, code, signal) => {
+    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
     });
 
-}
+} else {
+    const app = express();
 
-filterVideos = (rawVideos) => {
+    // Priority serve any static files.
+    app.use(express.static(path.resolve(__dirname, '../client/build')));
+    app.use(bodyParser.json());
 
-  return rawVideos.filter( video => {
-    return video.title.includes("Full Match")
-  });
-
-}
-
-// Multi-process to utilize all CPU cores.
-// if (cluster.isMaster) {
-//   console.error(`Node cluster master ${process.pid} is running`);
-
-//   // Fork workers.
-//   for (let i = 0; i < numCPUs; i++) {
-//     cluster.fork();
-//   }
-
-//   cluster.on('exit', (worker, code, signal) => {
-//     console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
-//   });
-
-// } else {
-  const app = express();
-
-  // Priority serve any static files.
-  app.use(express.static(path.resolve(__dirname, '../client/build')));
-  app.use(bodyParser.json());
-
-  // Answer API requests.
-  app.get('/api', function (req, res) {
+    // Answer API requests.
+    app.get('/api', function (req, res) {
     res.set('Content-Type', 'application/json');
     res.send('{"message":"Hello from the custom server!"}');
-  });
+    });
 
-  app.get('/videos', function (req, res) {
-    getVideos()
-          .then(function(rawVideos) {
-            let fullMatchVideos = filterVideos(rawVideos)
-            console.log(fullMatchVideos)
-            res.json(fullMatchVideos)
-          })
-  });
+    // Catch the API requests for /videos
+    app.get('/videos', function (req, res) {
+        getVideos()
+            .then(function(rawVideos) {
+                let fullMatchVideos = filterFullMatchVideos(rawVideos)
+                fullMatchVideos = formatThumbnailUrls(fullMatchVideos)
+                fullMatchVideos = addRelativeDate(fullMatchVideos)
+                res.json(fullMatchVideos)
+            })
+    });
 
-  // All remaining requests return the React app, so it can handle routing.
-  app.get('*', function(request, response) {
-    response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-  });
+    // All remaining requests return the React app, so it can handle routing.
+    app.get('*', function(request, response) {
+        response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+    });
 
-  app.listen(PORT, function () {
-    console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
-    process.on('SIGUSR2', () => { process.exit(0); });
-  });
-// }
+    app.listen(PORT, function () {
+        console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
+        process.on('SIGUSR2', () => { process.exit(0); });
+    });
+}
