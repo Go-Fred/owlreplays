@@ -13,13 +13,43 @@
   border-radius: 0px;
 }
 
-/*Titles*/
+/*Sticky footer*/
 
-.navbar h1{
-  color: black; 
-  font-weight: 800;
-  margin-top: 10px;
+html, body {
+  height: 100%;
 }
+.app-container  {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.content{
+  flex: 1;
+}
+.footer {
+  flex-shrink: 0;
+}
+
+/*footer style*/
+
+.footer {
+  background-color: #222;
+  height: 50px;
+  color: white;
+  margin-top: 30px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+}
+
+/*App container*/
+
+.content {
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+/*Titles*/
 
 h1,
 h2 {
@@ -48,31 +78,90 @@ h3 {
   font-size: 25px;
 }
 
+.home h2 {
+  margin-bottom: 20px;
+}
+
 /*App*/
 
-/*Footer*/
-
-.App-footer {
-  background-color: #222;
-  height: 50px;
-  color: white;
-  margin-top: 30px;
-  text-align: center;
-  vertical-align: middle;
-  line-height: 50px;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-.App a:hover {
+.app a:hover {
   text-decoration: underline;
 }
 
-.App-container {
-  padding-left: 50px;
-  padding-right: 50px;
+/* Cards style */ 
+
+.card img { 
+  max-width: 100%;
+}
+
+.card {
+  margin-bottom:20px;
+  min-height: 205px;
+}
+
+@media screen and (max-width: 600px) {
+  .card  { 
+    margin-bottom: 20px;
+    min-height: 0px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .card  { 
+    min-height: 180px;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .card  { 
+    min-height: 220px;
+  }
+}
+
+.card-title {
+ margin-top: 10px;
+}
+
+/* styles for '...' */ 
+.card-title {
+  /* hide text if it more than N lines  */
+  overflow: hidden;
+  /* for set '...' in absolute position */
+  position: relative; 
+  /* use this value to count block height */
+  line-height: 1.2em;
+  /* max-height = line-height (1.2) * lines max number (3) */
+  max-height: 3.6em; 
+  /* fix problem when last visible word doesn't adjoin right side  */
+  text-align: justify;  
+  /* place for '...' */
+  margin-right: -1em;
+  padding-right: 1em;
+}
+/* create the ... */
+.card-title:before {
+  /* points in the end */
+  content: '...';
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of block */
+  right: 0;
+  bottom: 0;
+}
+/* hide ... if we have text, which is less than or equal to max lines */
+.card-title:after {
+  /* points in the end */
+  content: '';
+  /* absolute position */
+  position: absolute;
+  /* set position to right bottom corner of text */
+  right: 0;
+  /* set width and height */
+  width: 1em;
+  height: 1em;
+  margin-top: 0.2em;
+  /* bg color = bg color under block */
+  background: white;
 }
 
 .link-content a {
@@ -90,15 +179,6 @@ a {
   font-family: 'Lato';
   font-style: normal;
   font-weight: normal;
-}
-
-.Hero-header h1 {
-  font-size: 50px;
-  margin-bottom: 15px;
-}
-
-.Hero-header {
-  margin-bottom: 35px;
 }
 
 .Content-entry {
@@ -149,93 +229,45 @@ p {
   height: 90%;
 }
 
+/* Navigation */
 
-
-.navbar-brand {
-  min-height: 80px;
+.navbar-default .navbar-brand{
+  color: black; 
+  font-weight: 800;
+  font-size: 20px;
 }
 
-.navbar-toggle {
-  margin-top: 30px;
+.navImg {
+  border-radius: 50%;
+  height: 55px;
+  margin-left: 10px;
+  -webkit-filter: opacity(70%) grayscale(0.75); /* Google Chrome, Safari 6+ & Opera 15+ */
+}
+
+.active .navImg {
+  -webkit-filter: opacity(100%) /* Google Chrome, Safari 6+ & Opera 15+ */
+}
+
+.navImg:hover {
+  -webkit-filter: opacity(70%) grayscale(0.75); /* Google Chrome, Safari 6+ & Opera 15+ */
+}
+
+@media (min-width: 768px) {
+    .container>.navbar-header {
+        min-width: 350px;   
+    }
 }
 
 .navbar .container {
   width: 100%;
-  /*margin-right: 50px;*/
   padding-left: 50px;
 }
-
-/*.navbar-link {
-  margin-top: 15px;
-  margin-bottom: 15px;
-  margin-left: 15px;
-}*/
-
-.sidebarlogo {
-  max-height: 30px;
-  margin-top: 10px;
-  margin-left: 15px;
-
-}
-
-.navbar-text {
-  /*margin-top: 30px;*/
-  /*margin-bottom: 15px;*/
-  display: inline-block;
-}
-
-.navbar-right{
-  padding: 15px;
-}
-
-.navbar-right p{
-  vertical-align: middle;
-}
-
-.navbar-right a{
-  vertical-align: middle;
-}
-
-.navbar-inverse .navbar-text {
-  color: white;
-  font-family: 'Nunito Sans', sans-serif;
-  font-weight: 200;
-  font-style: italic;
-}
-
-.nav p {
-  color: white;
-  font-family: 'Nunito Sans', sans-serif;
-  font-weight: 200;
-  vertical-align: middle;
-  display: inline-block;
-}
-
-.nav a:hover p {
-  font-weight: 900;
-}
-
-.nav .active p {
-  font-weight: 700;
-}
-
 
 
 .classtype h2{
   margin-bottom: 20px;
 }
 
-[class^='col'] img { /* class name starts with col-lg */
-  max-width: 100%;
 
-}
-
-[class^='col-lg'] { /* class name starts with col-lg */
-  margin-bottom: 20px;
-}
-
-[class^='col-md'] { /* class name starts with col-lg */
-  margin-bottom: 20px;
-}
 
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Nunito+Sans:200i,300,400,700,900');
