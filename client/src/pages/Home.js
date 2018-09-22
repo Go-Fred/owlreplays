@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Row } from "react-bootstrap";
 
-import TwitchCard from "../TwitchCard";
 import Group from "../Group";
 
 
@@ -19,42 +17,43 @@ class Home extends Component {
         };
     }
 
-    filterTodayVideos = (videos) => {
-
-        let fileteredVideos = videos.filter( video => {
-        return video.daysSinceDate === 17
-        }) 
-
-
-        if(fileteredVideos === undefined || fileteredVideos.length === 0){
-        return
-        }
-
-        this.setState({
-        today: fileteredVideos
-        });
-
-    }
-
     filterVideosByDate = (videos, numberOfDays, returnStateKey) => {
 
-        let fileteredVideos = videos.filter( video => {
-        return video.daysSinceDate === numberOfDays
-        }) 
+        let filteredVideos=[];
+
+        switch (numberOfDays.length) {
+
+        case 0:
+            break;
+
+        case 1:
+            filteredVideos = videos.filter( video => {
+                return video.daysSinceDate === numberOfDays[0]
+            }) 
+            break;
+        
+        case 2:
+            filteredVideos = videos.filter( video => {
+                return (numberOfDays[0] <= video.daysSinceDate && video.daysSinceDate <= numberOfDays[1])
+            }) 
+            break;
+
+        }    
 
 
-        if(fileteredVideos === undefined || fileteredVideos.length === 0){
-        return
+        if(filteredVideos === undefined || filteredVideos.length === 0){
+            return
         }
 
         this.setState({
-        [returnStateKey]: fileteredVideos
+            [returnStateKey]: filteredVideos
         });
 
     }
 
     componentDidMount() {
-        fetch('/videos')
+        const {championship} = this.props;
+        fetch('/videos' + '?championship=' + championship)
         .then(response => {
             if (!response.ok) {
             throw new Error(`status ${response.status}`);
@@ -67,9 +66,10 @@ class Home extends Component {
             videos: data,
             fetching: false
             });
-            //this.filterTodayVideos(this.state.videos);
-            this.filterVideosByDate(this.state.videos, 17, "today")
-            this.filterVideosByDate(this.state.videos, 56, "yesterday")
+            this.filterVideosByDate(this.state.videos, [0], "today")
+            this.filterVideosByDate(this.state.videos, [1], "yesterday")
+            this.filterVideosByDate(this.state.videos, [2,7], "thisWeek")
+            this.filterVideosByDate(this.state.videos, [8,1000], "beforeThisWeek")
 
         }).catch(e => {
             this.setState({
@@ -80,11 +80,14 @@ class Home extends Component {
     }
 
     render() {
-    const {videos, fetching, today, yesterday} = this.state;
+    const {videos, fetching, today, yesterday, thisWeek, beforeThisWeek} = this.state;
+    console.log(today, yesterday, thisWeek, beforeThisWeek);
     return (
-        <div className="Home" >
+        <div className="home" >
           {today && <Group videos={today} date="Today" fetching={fetching} {...this.props}></Group>} 
-          {yesterday && <Group videos={yesterday} date="Yesterday" fetching={fetching} {...this.props}></Group>} 
+          {yesterday && <Group videos={yesterday} date="Yesterday" fetching={fetching} {...this.props}></Group>}
+          {thisWeek && <Group videos={thisWeek} date="This Week" fetching={fetching} {...this.props}></Group>} 
+          {beforeThisWeek && <Group videos={beforeThisWeek} date="More than one week ago" fetching={fetching} {...this.props}></Group>} 
         </div>
     );
   }
