@@ -14,11 +14,31 @@ const TWITCH_CLIENT_ID = process.env.TWITCH_CLIENT_ID
 const DEFAULT_THUMBNAILS_WIDTH = 800
 const DEFAULT_THUMBNAILS_HEIGHT = 450
 
+const OWL_USER_ID = 137512364
+const PlayOverwatch_USER_ID = 59980349
 
 // Get videos from Twitch API using superagent
-getVideos = () => {
+
+getTwitchId = (championship) => {
+ if (!championship){
+     return OWL_USER_ID
+ } else {
+     switch (championship) {
+         case "overwatch-league" :
+            return OWL_USER_ID;
+         case "world-cup" :
+            return PlayOverwatch_USER_ID;
+        default :
+            return OWL_USER_ID;
+     }
+ }
+
+}
+
+getVideos = (championship) => {
+    const twitchId = getTwitchId(championship)
     return request = superagent
-        .get(SERVICE_URL + "/helix/videos?user_id=137512364&first=100")
+        .get(SERVICE_URL + "/helix/videos?user_id=" + twitchId + "&first=100")
         .set("Client-ID", TWITCH_CLIENT_ID)
         .set("Accept", "application/vnd.twitchtv.v5+json")
         .then(function(response){
@@ -102,7 +122,9 @@ if (cluster.isMaster) {
 
     // Catch the API requests for /videos
     app.get('/videos', function (req, res) {
-        getVideos()
+        const {championship} = req.query
+        console.log(championship)
+        getVideos(championship)
             .then(function(rawVideos) {
                 let fullMatchVideos = filterFullMatchVideos(rawVideos)
                 fullMatchVideos = formatThumbnailUrls(fullMatchVideos)

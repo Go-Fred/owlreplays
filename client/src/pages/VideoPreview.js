@@ -12,11 +12,11 @@ export default class VideoPreview extends Component {
         <div className="Video" >
           <h1>{title}</h1>
           <Row>
-            <Col md={12} sm={12} xs={12}>
+            <Col lg= {8} md={12} sm={12} xs={12}>
               <div>
                 <iframe
                   width="80%"
-                  height="600"
+                  height="400"
                   frameborder="0"
                   allowFullScreen
                   src={twitchIframeBaseURL + id + "&autoplay=false"}
