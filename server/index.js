@@ -51,6 +51,13 @@ getVideos = (championship) => {
         });
 }
 
+// Filter out Contenders videos 
+filterWorldCupVideos = (videos) => {
+    return videos.filter( video => {
+        return video.title.includes("World Cup")
+    });
+}
+
 // Filter out videos that doesn't contain Full Match
 filterFullMatchVideos = (videos) => {
     return videos.filter( video => {
@@ -126,6 +133,9 @@ if (cluster.isMaster) {
         console.log(championship)
         getVideos(championship)
             .then(function(rawVideos) {
+                if(championship === "world-cup") {
+                    rawVideos = filterWorldCupVideos(rawVideos)
+                }
                 let fullMatchVideos = filterFullMatchVideos(rawVideos)
                 fullMatchVideos = formatThumbnailUrls(fullMatchVideos)
                 fullMatchVideos = addRelativeDate(fullMatchVideos)
