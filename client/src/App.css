@@ -1,10 +1,12 @@
-/*Overwrites Bootstrap default colors*/
+/* Navigation */
+
+/* - Overwrites Bootstrap default colors - */
 
 .navbar-default {
   background-color: white;
 }
 
-/*Overwrites Bootstrap navbar*/
+/* - Overwrites Bootstrap navbar - */
 
 .navbar {
   margin-bottom: 0px;
@@ -13,7 +15,44 @@
   border-radius: 0px;
 }
 
-/*Sticky footer*/
+.navbar-default .navbar-brand{
+  color: black;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+/* - Navbar images - */
+
+.navImg {
+  border-radius: 50%;
+  height: 55px;
+  margin-left: 10px;
+  filter: opacity(70%) grayscale(0.75);
+  -webkit-filter: opacity(70%) grayscale(0.75); /* Google Chrome, Safari 6+ & Opera 15+ */
+}
+
+.active .navImg {
+  filter: opacity(100%);
+  -webkit-filter: opacity(100%); /* Google Chrome, Safari 6+ & Opera 15+ */
+}
+
+.navImg:hover {
+  filter: opacity(70%) grayscale(0.75);
+  -webkit-filter: opacity(70%) grayscale(0.75); /* Google Chrome, Safari 6+ & Opera 15+ */
+}
+
+@media (min-width: 768px) {
+    .container>.navbar-header {
+        min-width: 350px;
+    }
+}
+
+.navbar .container {
+  width: 100%;
+  padding-left: 50px;
+}
+
+/* Sticky footer */
 
 html, body {
   height: 100%;
@@ -25,12 +64,13 @@ html, body {
 }
 .content{
   flex: 1;
+  display: flex;
 }
 .footer {
   flex-shrink: 0;
 }
 
-/*footer style*/
+/* Footer */
 
 .footer {
   background-color: #222;
@@ -42,7 +82,11 @@ html, body {
   line-height: 50px;
 }
 
-/*App container*/
+.icon {
+  height: 25%;
+}
+
+/* Content */
 
 .content {
   padding-left: 50px;
@@ -60,35 +104,18 @@ h2 {
 }
 
 h1 {
-  font-size: 25px;
-}
-
-h2 {
   font-size: 20px;
   margin-bottom: 0px;
-}
-
-h3,
-h4 {
-  font-family: 'Lato';
-  font-weight: 700;
-}
-
-h3 {
-  font-size: 25px;
-}
-
-.home h2 {
   margin-bottom: 20px;
 }
 
-/*App*/
+/* App */
 
 .app a:hover {
   text-decoration: underline;
 }
 
-/* Cards style */ 
+/* Cards */
 
 .card img { 
   max-width: 100%;
@@ -164,53 +191,23 @@ h3 {
   background: white;
 }
 
-.link-content a {
-  /*color:black;*/
-  text-decoration: none;
-}
-
-.video-content a {
-  /*color:black;*/
-  text-decoration: none;
-}
-
-
 a {
   font-family: 'Lato';
   font-style: normal;
   font-weight: normal;
 }
 
-.Content-entry {
-  text-decoration: none;
-  /*margin-bottom: 10px;*/
-}
+/* Video Preview */
 
-.Video-preview {
+.video {
   margin-top: 5px;
-  max-width: 300px;
-  /*height: 160px;*/
+  flex-grow: 1;
 }
 
-.Content-wrapper ul {
-  list-style: none;
-}
-
-@media (max-width: 767px) {
-  .Content-wrapper ul {
-    padding-left: 0px;
-  }
-}
-
-.Content-wrapper {
-  overflow: hidden;
-}
-
-.Content-description p {
-  display: inline;
-  font-family: 'Nunito Sans', sans-serif;
-  font-weight: 300;
-  font-style: italic;
+.iframe-container {
+  margin-top: 5px;
+  height: 60%;
+  max-width: 1200px;
 }
 
 p {
@@ -220,54 +217,5 @@ p {
   font-style: normal;
   font-weight: normal;
 }
-
-.icon {
-  height: 25%;
-}
-
-.logo {
-  height: 90%;
-}
-
-/* Navigation */
-
-.navbar-default .navbar-brand{
-  color: black; 
-  font-weight: 800;
-  font-size: 20px;
-}
-
-.navImg {
-  border-radius: 50%;
-  height: 55px;
-  margin-left: 10px;
-  -webkit-filter: opacity(70%) grayscale(0.75); /* Google Chrome, Safari 6+ & Opera 15+ */
-}
-
-.active .navImg {
-  -webkit-filter: opacity(100%) /* Google Chrome, Safari 6+ & Opera 15+ */
-}
-
-.navImg:hover {
-  -webkit-filter: opacity(70%) grayscale(0.75); /* Google Chrome, Safari 6+ & Opera 15+ */
-}
-
-@media (min-width: 768px) {
-    .container>.navbar-header {
-        min-width: 350px;   
-    }
-}
-
-.navbar .container {
-  width: 100%;
-  padding-left: 50px;
-}
-
-
-.classtype h2{
-  margin-bottom: 20px;
-}
-
-
 
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Nunito+Sans:200i,300,400,700,900');

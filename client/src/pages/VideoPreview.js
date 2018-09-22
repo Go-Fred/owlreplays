@@ -9,21 +9,17 @@ export default class VideoPreview extends Component {
     const {id, title} = this.props;
     console.log('props', this.props);
       return (
-        <div className="Video" >
+        <div className="video" >
           <h1>{title}</h1>
-          <Row>
-            <Col lg= {8} md={12} sm={12} xs={12}>
-              <div>
+              <div className="iframe-container">
                 <iframe
                   width="80%"
-                  height="400"
+                  height="100%"
                   frameborder="0"
                   allowFullScreen
                   src={twitchIframeBaseURL + id + "&autoplay=false"}
                 />
               </div>
-            </Col>
-          </Row> 
         </div>
       );
   }
