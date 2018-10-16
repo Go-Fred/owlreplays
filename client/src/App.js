@@ -90,10 +90,9 @@ export default class App extends Component {
             </div>
             <div className="footer">
                 Made with{" "}
-                <a href="http://www.designbolts.com">
                 <img className="icon" src={heartIcon} alt="logo" />
-                </a>{" "}
-                by an Overwatch addict
+                {" "}
+                by an Overwatch addict <br></br> This website is not related to Blizzard Entertainment nor Twitch - Icon by <a href="http://www.designbolts.com">designbolt</a>
             </div>
             </div>
             </div>
