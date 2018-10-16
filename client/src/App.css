@@ -37,8 +37,8 @@
 }
 
 .navImg:hover {
-  filter: opacity(70%) grayscale(0.75);
-  -webkit-filter: opacity(70%) grayscale(0.75); /* Google Chrome, Safari 6+ & Opera 15+ */
+  filter: opacity(1);
+  -webkit-filter: opacity(1); /* Google Chrome, Safari 6+ & Opera 15+ */
 }
 
 @media (min-width: 768px) {
