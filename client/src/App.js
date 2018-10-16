@@ -83,9 +83,9 @@ export default class App extends Component {
             <div className="app-container">    
             <div className="content">
             <Switch>
-                <Route exact path="/" render={()=><Home  championship={championship} updateCurrentVideoTitle={this.updateCurrentVideoTitle}/>} />
+                <Route exact path="/" component={()=><Home  championship={championship} updateCurrentVideoTitle={this.updateCurrentVideoTitle}/>} />
                 <Route exact path={"/" + championship} component={()=><Home championship={championship} updateCurrentVideoTitle={this.updateCurrentVideoTitle}/>} />
-                <Route path={"/" + championship + "/videos/:id"} render={({ match }) => <VideoPreview id={match.params.id} title={this.state.currentVideoTitle}/>} />
+                <Route path={"/" + championship + "/videos/:id"} component={({ match }) => <VideoPreview id={match.params.id} title={this.state.currentVideoTitle}/>} />
             </Switch>
             </div>
             <div className="footer">
