@@ -11,6 +11,7 @@ dotenv.load();
 
 const PORT = process.env.PORT || 5000;
 const TWITCH_CLIENT_ID = process.env.TWITCH_CLIENT_ID
+const FAKE_TWITCH_CLIENT_ID = process.env.FAKE_TWITCH_CLIENT_ID
 const DEFAULT_THUMBNAILS_WIDTH = 800
 const DEFAULT_THUMBNAILS_HEIGHT = 450
 
@@ -41,13 +42,13 @@ getVideos = (championship) => {
         .get(SERVICE_URL + "/helix/videos?user_id=" + twitchId + "&first=100")
         .set("Client-ID", TWITCH_CLIENT_ID)
         .set("Accept", "application/vnd.twitchtv.v5+json")
-        .then(function(response){
-            let videos = response.body.data
+        .then((res)=>{
+            let videos = res.body.data
             return videos
         })
         .catch(err => {
-            console.log("API ERROR:\n", err);
-            res.end();
+            //console.log(err)
+            throw err
         });
 }
 
@@ -128,11 +129,12 @@ if (cluster.isMaster) {
     });
 
     // Catch the API requests for /videos
-    app.get('/videos', function (req, res) {
+    app.get('/videos', (req, res, next) => {
         const {championship} = req.query
-        console.log(championship)
+        //console.log(championship)
         getVideos(championship)
             .then(function(rawVideos) {
+                //console.log(rawVideos)
                 if(championship === "world-cup") {
                     rawVideos = filterWorldCupVideos(rawVideos)
                 }
@@ -141,7 +143,12 @@ if (cluster.isMaster) {
                 fullMatchVideos = addRelativeDate(fullMatchVideos)
                 res.json(fullMatchVideos)
             })
-    });
+            .catch(err => {
+                console.log(err.message)
+                res.json({ errMessage: err.message });
+            })
+        }
+    );
 
     // All remaining requests return the React app, so it can handle routing.
     app.get('*', function(request, response) {

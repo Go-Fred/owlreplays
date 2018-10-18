@@ -85,6 +85,10 @@ html, body {
   height: 15px;
 }
 
+.gear {
+  height: 30px;
+}
+
 /* Content */
 
 .content {
@@ -215,6 +219,45 @@ p {
   font-family: 'Lato';
   font-style: normal;
   font-weight: normal;
+}
+
+/* Error Page */
+
+.error {
+  margin: auto;
+  width: 80%;
+  padding: 10px;
+  text-align: center;
+}
+
+.error p {
+  font-size:25px;
+  color: rgb(151, 151, 151);
+}
+
+@media screen and (max-width: 600px) {
+  .error p {
+    font-size:20px;
+  }
+}
+
+.fetching {
+  margin: auto;
+  width: 80%;
+  padding: 10px;
+  text-align: center;
+}
+
+.fetching p {
+  font-size:25px;
+  color: rgb(151, 151, 151);
+  font-weight: 400;
+}
+
+@media screen and (max-width: 600px) {
+  .fetching p {
+    font-size:20px;
+  }
 }
 
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Nunito+Sans:200i,300,400,700,900');

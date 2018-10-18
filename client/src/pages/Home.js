@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 
 import Group from "../Group";
+import Error from "./Error";
+import Fetching from "./Fetching";
 
 
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        message: null,
+        error: null,
+        errorMessage: null,
         videos: null,
         today: null, 
         yesterday: null,
@@ -55,13 +58,29 @@ class Home extends Component {
         const {championship} = this.props;
         fetch('/videos' + '?championship=' + championship)
         .then(response => {
+            console.log(response)
             if (!response.ok) {
             throw new Error(`status ${response.status}`);
             }
             return response.json();
         })
+        .catch(e => {
+            this.setState({
+            error: true,    
+            message: `API call failed: ${e}`,
+            fetching: false
+            });
+        })
         .then(data => {
-            //console.log(data)
+            console.log(data)
+            if(data.errMessage){
+                this.setState({
+                    error: true,
+                    message: `API call failed: ${data.errMessage}`,
+                    fetching: false
+                    });
+                    return;
+            }
             this.setState({ 
             videos: data,
             fetching: false
@@ -73,6 +92,7 @@ class Home extends Component {
 
         }).catch(e => {
             this.setState({
+            error: true,
             message: `API call failed: ${e}`,
             fetching: false
             });
@@ -80,15 +100,24 @@ class Home extends Component {
     }
 
     render() {
-    const {videos, fetching, today, yesterday, thisWeek, beforeThisWeek} = this.state;
-    console.log(today, yesterday, thisWeek, beforeThisWeek);
+    const {videos, fetching, today, yesterday, thisWeek, beforeThisWeek, error, message} = this.state;
     return (
-        <div className="home" >
-          {today && <Group videos={today} date="Today" fetching={fetching} {...this.props}></Group>} 
-          {yesterday && <Group videos={yesterday} date="Yesterday" fetching={fetching} {...this.props}></Group>}
-          {thisWeek && <Group videos={thisWeek} date="This Week" fetching={fetching} {...this.props}></Group>} 
-          {beforeThisWeek && <Group videos={beforeThisWeek} date="More than one week ago" fetching={fetching} {...this.props}></Group>} 
-        </div>
+        <div className="content">
+        {error ? (
+            <Error />
+        ) : (
+            fetching ? (
+                <Fetching />
+            ) : (
+                <div className="home" >
+                    {today && <Group videos={today} date="Today" fetching={fetching} {...this.props}></Group>}
+                    {yesterday && <Group videos={yesterday} date="Yesterday" fetching={fetching} {...this.props}></Group>}
+                    {thisWeek && <Group videos={thisWeek} date="This Week" fetching={fetching} {...this.props}></Group>}
+                    {beforeThisWeek && <Group videos={beforeThisWeek} date="More than one week ago" fetching={fetching} {...this.props}></Group>}
+                    </div>
+            )
+            )
+        }</div>
     );
   }
 }
