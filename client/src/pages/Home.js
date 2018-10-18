@@ -58,7 +58,6 @@ class Home extends Component {
         const {championship} = this.props;
         fetch('/videos' + '?championship=' + championship)
         .then(response => {
-            console.log(response)
             if (!response.ok) {
             throw new Error(`status ${response.status}`);
             }
@@ -72,7 +71,6 @@ class Home extends Component {
             });
         })
         .then(data => {
-            console.log(data)
             if(data.errMessage){
                 this.setState({
                     error: true,

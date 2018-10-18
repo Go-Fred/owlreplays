@@ -4,8 +4,6 @@ import {
     Link,
   } from 'react-router-dom'
 
-const twitchIframeBaseURL = 'http://player.twitch.tv/?autoplay=false&video='
-
 export default class TwitchCard extends Component {
 
   render() {
