@@ -20,22 +20,23 @@ const PlayOverwatch_USER_ID = 59980349
 
 // Get videos from Twitch API using superagent
 
+// Return the right Twitch User ID depending on the query param
 getTwitchId = (championship) => {
- if (!championship){
-     return OWL_USER_ID
- } else {
-     switch (championship) {
-         case "overwatch-league" :
-            return OWL_USER_ID;
-         case "world-cup" :
-            return PlayOverwatch_USER_ID;
-        default :
-            return OWL_USER_ID;
-     }
- }
-
+    if (!championship) {
+        return OWL_USER_ID
+    } else {
+        switch (championship) {
+            case "overwatch-league" :
+                return OWL_USER_ID;
+            case "world-cup" :
+                return PlayOverwatch_USER_ID;
+            default :
+                return OWL_USER_ID;
+        }
+    }
 }
 
+// Call Twitch API with the right Twitch User ID
 getVideos = (championship) => {
     const twitchId = getTwitchId(championship)
     return request = superagent
@@ -47,25 +48,27 @@ getVideos = (championship) => {
             return videos
         })
         .catch(err => {
-            //console.log(err)
             throw err
         });
 }
 
+// Execute some post processeing operations with the videos
+
 // Filter out Contenders videos 
 filterWorldCupVideos = (videos) => {
     return videos.filter( video => {
-        return video.title.includes("World Cup")
+        return video.title.includes("World Cup");
     });
 }
 
 // Filter out videos that doesn't contain Full Match
 filterFullMatchVideos = (videos) => {
     return videos.filter( video => {
-        return video.title.includes("Full Match")
+        return video.title.includes("Full Match");
     });
 }
 
+// Reformate the thumbnails to a standard value to display them correctly in the front-end
 formatThumbnailUrls = (videos) => {
     for (let video of videos){
         let {thumbnail_url} = video;
@@ -73,12 +76,11 @@ formatThumbnailUrls = (videos) => {
         thumbnail_url = thumbnail_url.replace('%{height}',DEFAULT_THUMBNAILS_HEIGHT);
         video.thumbnail_url = thumbnail_url;
     }
-
-    return videos
+    return videos;
 }
 
+// Find the number of days since the current date
 getDaysSinceDate = (date) => {
-    console.log(date)
     //Get 1 day in milliseconds
     let one_day=1000*60*60*24;
 
@@ -94,12 +96,13 @@ getDaysSinceDate = (date) => {
     return Math.round(difference_ms/one_day);
 }
 
+// Populate a new field on the video object with the number of days since the video was posted online
 addRelativeDate = (videos) => {
 
     for (let video of videos){
-        video.daysSinceDate = getDaysSinceDate(video.created_at)
+        video.daysSinceDate = getDaysSinceDate(video.created_at);
     }
-    return videos
+    return videos;
 }
 
 //Multi-process to utilize all CPU cores.
@@ -122,29 +125,28 @@ if (cluster.isMaster) {
     app.use(express.static(path.resolve(__dirname, '../client/build')));
     app.use(bodyParser.json());
 
-    // Answer API requests.
+    // Sample HTTP request to test the server
     app.get('/api', function (req, res) {
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"Hello from the custom server!"}');
+        res.set('Content-Type', 'application/json');
+        res.send('{"message":"Hello from the custom server!"}');
     });
 
     // Catch the API requests for /videos
-    app.get('/videos', (req, res, next) => {
+    app.get('/videos', (req, res) => {
         const {championship} = req.query
-        //console.log(championship)
         getVideos(championship)
             .then(function(rawVideos) {
-                //console.log(rawVideos)
                 if(championship === "world-cup") {
-                    rawVideos = filterWorldCupVideos(rawVideos)
+                    rawVideos = filterWorldCupVideos(rawVideos);
                 }
-                let fullMatchVideos = filterFullMatchVideos(rawVideos)
-                fullMatchVideos = formatThumbnailUrls(fullMatchVideos)
-                fullMatchVideos = addRelativeDate(fullMatchVideos)
-                res.json(fullMatchVideos)
+                let fullMatchVideos = filterFullMatchVideos(rawVideos);
+                fullMatchVideos = formatThumbnailUrls(fullMatchVideos);
+                fullMatchVideos = addRelativeDate(fullMatchVideos);
+                res.json(fullMatchVideos);
             })
             .catch(err => {
-                console.log(err.message)
+                // Log a potential error and send it to the front-end
+                console.log(err.message);
                 res.json({ errMessage: err.message });
             })
         }
